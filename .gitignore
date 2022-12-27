@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+
+.idea/vcs.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/MobileApplicationAusarbeitung.iml
+=======
 *.iml
 .gradle
 /local.properties
@@ -13,3 +20,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+>>>>>>> c90a81216893509e6b19380822dbdfe362f1f67d
