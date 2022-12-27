@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -12,9 +13,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private BarcodeDetector barcodeDetector;
     private SurfaceView surfaceView;
     private Button buttonScan;
+    private TextView textView;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
 
     @Override
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         surfaceView = findViewById(R.id.surfaceView);
         buttonScan = findViewById(R.id.buttonScan);
+        textView = findViewById(R.id.textView2);
 
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startCamera();
+                detectQRCode(barcodeDetector);
             }
 
             private void startCamera() {
@@ -64,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -80,22 +89,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
-            }
+    }
+    private void detectQRCode(BarcodeDetector detector) {
+        if (!detector.isOperational()) {
+            // Detektor ist nicht funktionsfähig
+            return;
+        }
 
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() > 0) {
-                    // Verarbeite den erkannten QR Code hier
-                    String qrCode = barcodes.valueAt(0).displayValue;
-                    Log.d("QR Code", qrCode);
-                }
-            }
-        });
+        // Bild auf dem Bildschirm als Bitmap erstellen
+        View view = getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap = view.getDrawingCache();
 
+        // QR-Code aus dem Bild extrahieren
+        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+        SparseArray<Barcode> barcodes = detector.detect(frame);
+
+        if (barcodes.size() > 0) {
+            // QR-Code gefunden
+            Barcode qrCode = barcodes.valueAt(0);
+            String qrCodeContent = qrCode.rawValue;
+
+            // Inhalt des QR-Codes in einem Toast anzeigen
+            Toast.makeText(this, qrCodeContent, Toast.LENGTH_LONG).show();
+        } else {
+            // Kein QR-Code gefunden
+            Toast.makeText(this, "No QR code found", Toast.LENGTH_LONG).show();
+        }
     }
 
 }
