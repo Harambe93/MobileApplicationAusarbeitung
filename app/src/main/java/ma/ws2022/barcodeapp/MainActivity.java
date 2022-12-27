@@ -1,9 +1,12 @@
 package ma.ws2022.barcodeapp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -56,13 +59,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startCamera();
-                detectQRCode(barcodeDetector);
             }
 
             private void startCamera() {
                 try {
                     if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(surfaceView.getHolder());
+                        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+                            @Override
+                            public void release() {
+                                Toast.makeText(MainActivity.this, "To prevent memory leaks, release the barcode detector", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                                if (barcodes.size() != 0) {
+                                    textView.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            textView.setText(barcodes.valueAt(0).displayValue);
+                                            Barcode qrCode = barcodes.valueAt(0);
+                                            String qrCodeContent = qrCode.rawValue;
+                                            Toast.makeText(MainActivity.this, qrCodeContent, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            }
+                        });
                     } else {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
@@ -89,33 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-    private void detectQRCode(BarcodeDetector detector) {
-        if (!detector.isOperational()) {
-            // Detektor ist nicht funktionsfähig
-            return;
-        }
-
-        // Bild auf dem Bildschirm als Bitmap erstellen
-        View view = getWindow().getDecorView();
-        view.setDrawingCacheEnabled(true);
-        Bitmap bitmap = view.getDrawingCache();
-
-        // QR-Code aus dem Bild extrahieren
-        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-        SparseArray<Barcode> barcodes = detector.detect(frame);
-
-        if (barcodes.size() > 0) {
-            // QR-Code gefunden
-            Barcode qrCode = barcodes.valueAt(0);
-            String qrCodeContent = qrCode.rawValue;
-
-            // Inhalt des QR-Codes in einem Toast anzeigen
-            Toast.makeText(this, qrCodeContent, Toast.LENGTH_LONG).show();
-        } else {
-            // Kein QR-Code gefunden
-            Toast.makeText(this, "No QR code found", Toast.LENGTH_LONG).show();
-        }
     }
 
 }
