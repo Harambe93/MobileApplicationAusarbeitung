@@ -15,6 +15,13 @@
         android:theme="@style/Theme.BarcodeApp"
         tools:targetApi="31">
         <activity
+            android:name=".CostumListviewActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".QrCodeScannerActivity"
             android:exported="false">
             <meta-data

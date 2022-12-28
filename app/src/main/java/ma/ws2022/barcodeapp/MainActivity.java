@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private Button buttonScan;
+    String historyQrCodes[] = {"Test eins", "Test zwei", "Test drei", "Test vier"};
+    ListView listView;
 
-
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         buttonScan = findViewById(R.id.buttonScan);
-
+        listView = findViewById(R.id.costumListView);
+        CostumClassAdapter costumClassAdapter = new CostumClassAdapter(getApplicationContext(),historyQrCodes);
+        listView.setAdapter(costumClassAdapter);
 
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
