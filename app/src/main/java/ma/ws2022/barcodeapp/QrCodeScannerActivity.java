@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -29,7 +30,10 @@ public class QrCodeScannerActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private TextView textView;
     private Button buttonBack;
+    private Button buttoStart;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,16 @@ public class QrCodeScannerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        startCamera();
+
+        buttoStart = findViewById(R.id.buttonStart);
+
+        buttoStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startCamera();
+            }
+        });
+
 
 
         }
