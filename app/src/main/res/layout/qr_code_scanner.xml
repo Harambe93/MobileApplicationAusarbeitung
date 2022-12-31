@@ -9,22 +9,35 @@
 
     <Button
         android:id="@+id/buttonBack"
-        android:layout_width="wrap_content"
+        android:background="@drawable/custombutton"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="#6B3175"
+        android:layout_marginStart="200dp"
+        android:layout_marginBottom="120dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:text="back" />
 
     <Button
         android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
+        android:background="@drawable/custombutton"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
-        android:backgroundTint="#6B3175"
-        android:text="Scan QR Code"
+        android:layout_marginBottom="200dp"
+        android:layout_marginStart="200dp"
+        android:text="Start Scan .."
         android:textSize="16sp"
         android:textStyle="bold" />
 </RelativeLayout>
