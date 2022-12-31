@@ -11,11 +11,11 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     private Button buttonScan;
     String historyQrCodes[] = {"Test eins", "Test zwei", "Test drei", "Test vier"};
     ListView listView;
+    //Intent intent = getIntent();
+    //String[] historyQrCodes = intent.getStringArrayExtra("qr_codes");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonScan = findViewById(R.id.buttonScan);
         listView = findViewById(R.id.costumListView);
+
         CostumClassAdapter costumClassAdapter = new CostumClassAdapter(getApplicationContext(),historyQrCodes);
         listView.setAdapter(costumClassAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

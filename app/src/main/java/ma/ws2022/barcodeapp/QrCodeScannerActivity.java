@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+
 public class QrCodeScannerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttonBack;
     private Button buttonStart;
@@ -56,6 +58,14 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() != null) {
+
+                //Neuer Intent um Daten an die MainActivity zu übergeben
+                //Intent intent = new Intent(this, MainActivity.class);
+                //ArrayList<String> qrCodes = new ArrayList<>();
+                //.add(result.getContents());
+                //intent.putStringArrayListExtra("qr_codes", qrCodes);
+                //startActivity(intent);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(result.getContents());
                 builder.setTitle("Scan Result");

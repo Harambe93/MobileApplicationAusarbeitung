@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7E7878"
+    android:background="@drawable/background_image"
     tools:context=".QrCodeScannerActivity">
 
     <Button
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="#BC8534"
+        android:backgroundTint="#6B3175"
         android:text="back" />
 
     <Button
@@ -23,7 +23,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="54dp"
-        android:backgroundTint="#BC8534"
+        android:backgroundTint="#6B3175"
         android:text="Scan QR Code"
         android:textSize="16sp"
         android:textStyle="bold" />
