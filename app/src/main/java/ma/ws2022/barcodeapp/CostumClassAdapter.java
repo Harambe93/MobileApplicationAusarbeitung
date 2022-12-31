@@ -8,11 +8,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CostumClassAdapter extends BaseAdapter {
 
     private String [] historyQrCodes;
     private Context context;
     LayoutInflater inflater;
+
+
+
 
     public CostumClassAdapter(Context ctx, String [] historyQrCodes){
         this.context = ctx;
@@ -39,9 +45,18 @@ public class CostumClassAdapter extends BaseAdapter {
     @SuppressLint("ViewHolder")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        //Entfernt das letzte Element aus dem Array, damit wir nur 5 Elemente anzeigen, und lässt alle anderen Elemente nachrücken
+        //ToDo: Wenn wir Elemente aus der DB nehmen, müssen wir sie am ANFANG des Arrays einfügen, damit die neuesten Elemente oben stehen
+        ArrayList<String> removeLastItem = new ArrayList<String>(Arrays.asList(historyQrCodes));
+        if(removeLastItem.size() > 5){
+            removeLastItem.remove(removeLastItem.get(removeLastItem.size() - 1));
+            removeLastItem.toArray(historyQrCodes);
+        }
+
         view = inflater.inflate(R.layout.activity_costum_listview, null);
         TextView textView = view.findViewById(R.id.textViewList);
         textView.setText(historyQrCodes[i]);
+
         return view;
     }
 }

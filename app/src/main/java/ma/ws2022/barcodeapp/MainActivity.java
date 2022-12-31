@@ -12,7 +12,7 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonScan;
-    String historyQrCodes[] = {"Test eins", "Test zwei", "Test drei", "Test vier"};
+    String historyQrCodes[] = {"Test eins", "Test zwei", "Test drei", "Test vier", "Test fünf", "Test sechs"};
     ListView listView;
     //Intent intent = getIntent();
     //String[] historyQrCodes = intent.getStringArrayExtra("qr_codes");
