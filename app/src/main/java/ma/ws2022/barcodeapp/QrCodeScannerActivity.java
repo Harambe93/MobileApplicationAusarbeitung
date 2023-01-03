@@ -10,11 +10,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class QrCodeScannerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttonBack;
@@ -59,13 +71,6 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
         if (result != null) {
             if (result.getContents() != null) {
 
-                //Neuer Intent um Daten an die MainActivity zu übergeben
-                //Intent intent = new Intent(this, MainActivity.class);
-                //ArrayList<String> qrCodes = new ArrayList<>();
-                //.add(result.getContents());
-                //intent.putStringArrayListExtra("qr_codes", qrCodes);
-                //startActivity(intent);
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(result.getContents());
                 builder.setTitle("Scan Result");
@@ -82,6 +87,16 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                         startActivity(intent);
                     }
                 });
+                builder.setNeutralButton("Add to Database", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        try {
+                            post(result.getContents());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 builder.setNegativeButton("Finish", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -95,6 +110,36 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void post(String data) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String url = "localhost:3000/items";
+        RequestBody body = RequestBody.create(data, MediaType.parse("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Handle failure
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error getting data from the database", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                // Handle success
+                String responseData = response.body().string();
+                Toast.makeText(getApplicationContext(), responseData, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

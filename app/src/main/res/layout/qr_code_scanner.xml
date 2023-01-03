@@ -40,4 +40,5 @@
         android:text="Start Scan .."
         android:textSize="16sp"
         android:textStyle="bold" />
+
 </RelativeLayout>
