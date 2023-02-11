@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set up a connection to the MongoDB database
-const uri = "mongodb+srv://RestAPI:supersafepassword@restapi.w748b.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://RestAPI:123@restapi.w748b.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
   const collection = client.db("codes").collection("QR");
