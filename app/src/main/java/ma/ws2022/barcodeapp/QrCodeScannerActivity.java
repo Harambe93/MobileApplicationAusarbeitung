@@ -1,5 +1,11 @@
 package ma.ws2022.barcodeapp;
 
+<<<<<<< Updated upstream
+=======
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+>>>>>>> Stashed changes
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -16,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< Updated upstream
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -29,6 +36,26 @@ public class QrCodeScannerActivity extends AppCompatActivity {
     private BarcodeDetector barcodeDetector;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private TextView textView;
+=======
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+
+public class QrCodeScannerActivity extends AppCompatActivity implements View.OnClickListener {
+>>>>>>> Stashed changes
     private Button buttonBack;
     private Button buttoStart;
 
@@ -55,6 +82,8 @@ public class QrCodeScannerActivity extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String Text = "GET IT TO WORK";
+                addStuff(Text);
                 Intent intent = new Intent(QrCodeScannerActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -84,6 +113,7 @@ public class QrCodeScannerActivity extends AppCompatActivity {
                     }
 
                     @Override
+<<<<<<< Updated upstream
                     public void receiveDetections(Detector.Detections<Barcode> detections) {
                         final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                         if (barcodes.size() != 0) {
@@ -97,6 +127,18 @@ public class QrCodeScannerActivity extends AppCompatActivity {
                                 }
                             });
                         }
+=======
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getContents()));
+                        startActivity(intent);
+                    }
+                });
+                builder.setNeutralButton("Add to Database", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String Text = "I hope this works";
+                        addStuff(Text);
+>>>>>>> Stashed changes
                     }
                 });
             } else {
@@ -106,7 +148,21 @@ public class QrCodeScannerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+<<<<<<< Updated upstream
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+=======
+    /*
+    public void post(String data) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        String url = "localhost:3000/items";
+        RequestBody body = RequestBody.create(data, MediaType.parse("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+>>>>>>> Stashed changes
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
             }
@@ -120,6 +176,38 @@ public class QrCodeScannerActivity extends AppCompatActivity {
                 cameraSource.stop();
             }
         });
+    }
+
+     */
+    public void addStuff(String data){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("data", data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:3000")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        API api = retrofit.create(API.class);
+        Call<Void> call = api.sendData(jsonObject.toString());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Successfully added data to the Database", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error getting data from the database" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failure", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }
 
