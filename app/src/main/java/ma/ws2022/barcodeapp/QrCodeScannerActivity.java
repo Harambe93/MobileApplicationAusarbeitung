@@ -31,6 +31,7 @@ import okhttp3.Response;
 public class QrCodeScannerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttonBack;
     private Button buttonStart;
+    RestApi api = new RestApi();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
             if (result.getContents() != null) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(result.getContents());
+                builder.setMessage(api.handleBarcode(result.getContents()));
                 builder.setTitle("Scan Result");
                 builder.setPositiveButton("Scan again", new DialogInterface.OnClickListener() {
                     @Override
@@ -80,6 +81,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                         scanCode();
                     }
                 });
+                /*
                 builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -87,6 +89,8 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                         startActivity(intent);
                     }
                 });
+
+
                 builder.setNeutralButton("Add to Database", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -97,6 +101,8 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                         }
                     }
                 });
+
+                 */
                 builder.setNegativeButton("Finish", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
