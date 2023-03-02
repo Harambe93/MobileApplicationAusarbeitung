@@ -15,9 +15,17 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,7 +101,8 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
             if (result.getContents() != null) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(api.handleBarcode(result.getContents()));
+                //builder.setMessage(api.handleBarcode(result.getContents()));
+                builder.setMessage(result.getContents());
                 builder.setTitle("Scan Result");
                 builder.setPositiveButton("Scan again", new DialogInterface.OnClickListener() {
                     @Override
@@ -115,6 +124,24 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                        // historyQrCodes[0] = result.getContents();
+                        RequestQueue queue = Volley.newRequestQueue(QrCodeScannerActivity.this);
+                        String url = "http://192.168.2.111:3000/items";
+
+                        //String url = "https://api.wheretheiss.at/v1/satellites/25544";
+                        JsonArrayRequest stringRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                Toast.makeText(QrCodeScannerActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                            }
+                                }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(QrCodeScannerActivity.this, "Oops" + error.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+// Add the request to the RequestQueue.
+                        queue.add(stringRequest);
                     }
                 });
 
