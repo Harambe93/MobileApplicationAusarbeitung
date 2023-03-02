@@ -4,11 +4,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +30,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import android.widget.ListView;
 
 public class QrCodeScannerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttonBack;
     private Button buttonStart;
+
+    //String[] historyQrCodes;
+    //ListView listView;
+
+
     RestApi api = new RestApi();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +49,19 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
         buttonBack = findViewById(R.id.buttonBack);
         buttonStart = findViewById(R.id.buttonStart);
 
-        buttonStart.setOnClickListener(this);
+        //listView = findViewById(R.id.costumListView);
+        //CostumClassAdapter costumClassAdapter = new CostumClassAdapter(getApplicationContext(),historyQrCodes);
+        //listView.setAdapter(costumClassAdapter);
+        //listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //@Override
+            //public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Log.i("COSTUM_LIST_VIEW", "CLICK ON ITEM NUBER ::" + i );
+            //}
+        //});
 
+
+
+        buttonStart.setOnClickListener(this);
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,20 +109,16 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                         startActivity(intent);
                     }
                 });
+                */
 
-
-                builder.setNeutralButton("Add to Database", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("Add to History", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        try {
-                            post(result.getContents());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                       // historyQrCodes[0] = result.getContents();
                     }
                 });
 
-                 */
+
                 builder.setNegativeButton("Finish", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

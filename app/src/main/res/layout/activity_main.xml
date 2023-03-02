@@ -24,20 +24,6 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/costumListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:divider="@color/black"
-        android:dividerHeight="2dp"
-        android:listSelector="@color/purple_200"
-        android:smoothScrollbar="true"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/buttonScan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </RelativeLayout>
