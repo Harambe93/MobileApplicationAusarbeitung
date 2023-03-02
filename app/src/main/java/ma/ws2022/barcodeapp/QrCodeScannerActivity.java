@@ -3,17 +3,13 @@ package ma.ws2022.barcodeapp;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.webkit.URLUtil;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -30,20 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import android.widget.ListView;
 
 public class QrCodeScannerActivity extends AppCompatActivity implements View.OnClickListener {
     private Button buttonBack;
     private Button buttonStart;
+    public final String URL = "http://192.168.2.111:3000/items";
 
     //String[] historyQrCodes;
     //ListView listView;
@@ -102,34 +90,25 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
             if (result.getContents() != null) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                //builder.setMessage(api.handleBarcode(result.getContents()));
                 builder.setMessage(result.getContents());
                 builder.setTitle("Scan Result");
+                /*
                 builder.setPositiveButton("Scan again", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         scanCode();
                     }
                 });
-                /*
-                builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getContents()));
-                        startActivity(intent);
-                    }
-                });
                 */
-
-                builder.setNeutralButton("Add to History", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Add to History", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                       // historyQrCodes[0] = result.getContents();
+                        sendJsonPostRequest(result.getContents());
+                        /*
                         RequestQueue queue = Volley.newRequestQueue(QrCodeScannerActivity.this);
                         String url = "http://192.168.2.111:3000/items";
 
-                        //String url = "https://api.wheretheiss.at/v1/satellites/25544";
-                        JsonArrayRequest stringRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONArray>() {
+                        JsonArrayRequest stringRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, URL, null, new com.android.volley.Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
                                 Toast.makeText(QrCodeScannerActivity.this, response.toString(), Toast.LENGTH_LONG).show();
@@ -139,12 +118,23 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(QrCodeScannerActivity.this, "Oops" + error.toString(), Toast.LENGTH_LONG).show();
                             }
-                        });
 
-// Add the request to the RequestQueue.
+                        });
                         queue.add(stringRequest);
+
+                         */
                     }
                 });
+
+                if(URLUtil.isValidUrl(String.valueOf(Uri.parse(result.getContents())))){
+                    builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getContents()));
+                            startActivity(intent);
+                        }
+                    });
+                }
 
 
                 builder.setNegativeButton("Finish", new DialogInterface.OnClickListener() {
@@ -162,34 +152,44 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    public void post(String data) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        String url = "localhost:3000/items";
-        RequestBody body = RequestBody.create(data, MediaType.parse("application/json; charset=utf-8"));
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
+    private void sendJsonPostRequest(String codeData){
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                // Handle failure
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Error getting data from the database", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+        try {
+            JSONObject jsonParams = new JSONObject();
+            jsonParams.put("data", codeData);
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                // Handle success
-                String responseData = response.body().string();
-                Toast.makeText(getApplicationContext(), responseData, Toast.LENGTH_SHORT).show();
-            }
-        });
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Request.Method.POST,
+                    URL,
+                    jsonParams,
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Toast.makeText(QrCodeScannerActivity.this, "Erfolgreich hinzugefügt", Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(QrCodeScannerActivity.this, "Error: " + error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+            Volley.newRequestQueue(getApplicationContext()).
+                    add(request);
+
+        } catch(JSONException ex){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(ex.getMessage());
+            builder.setTitle("EXCEPTION");
+            builder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            builder.show();
+        }
+
     }
 }
 
