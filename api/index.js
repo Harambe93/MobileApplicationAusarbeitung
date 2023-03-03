@@ -3,6 +3,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const bodyParser = require('body-parser');
 const { json } = require('express');
 const cors = require('cors');
+const authConfig = require('./auth.config');
 
 // Create a new express app
 const app = express();
@@ -18,7 +19,7 @@ app.use(cors({
 
 
 // Set up a connection to the MongoDB database
-const uri = "mongodb+srv://RestAPI:123@restapi.w748b.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://RestAPI:"+ authConfig.password +"@restapi.w748b.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
   const collection = client.db("codes").collection("QR");
