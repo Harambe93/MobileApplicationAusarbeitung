@@ -104,25 +104,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         sendJsonPostRequest(result.getContents());
-                        /*
-                        RequestQueue queue = Volley.newRequestQueue(QrCodeScannerActivity.this);
-                        String url = "http://192.168.2.111:3000/items";
 
-                        JsonArrayRequest stringRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, URL, null, new com.android.volley.Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                Toast.makeText(QrCodeScannerActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-                            }
-                                }, new com.android.volley.Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(QrCodeScannerActivity.this, "Oops" + error.toString(), Toast.LENGTH_LONG).show();
-                            }
-
-                        });
-                        queue.add(stringRequest);
-
-                         */
                     }
                 });
 
@@ -162,7 +144,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                     Request.Method.POST,
                     URL,
                     jsonParams,
-                    new com.android.volley.Response.Listener<JSONObject>() {
+                    new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             Toast.makeText(QrCodeScannerActivity.this, "Erfolgreich hinzugefügt", Toast.LENGTH_LONG).show();

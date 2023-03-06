@@ -36,6 +36,13 @@ client.connect(err => {
     res.send(items);
   });
 
+  app.get('/items/last5', async (req, res) => {
+    // Fetch data from the "codes" collection and send it back to the client
+    const collection = client.db('codes').collection('QR');
+    const items = await collection.find().limit(5).sort({$natural:-1}).toArray(); 
+    res.send(items);
+  });
+
   app.get('/items/:id', async (req, res) => {
     // Fetch a single item from the "codes" collection and send it back to the client
     const collection = client.db('codes').collection('QR');
