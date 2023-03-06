@@ -53,7 +53,7 @@ public class CostumClassAdapter extends BaseAdapter {
             removeLastItem.toArray(historyQrCodes);
         }
 
-        view = inflater.inflate(R.layout.activity_costum_listview, null);
+        view = inflater.inflate(R.layout.activity_custom_listview, null);
         TextView textView = view.findViewById(R.id.textViewList);
         textView.setText(historyQrCodes[i]);
 

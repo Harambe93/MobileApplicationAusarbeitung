@@ -12,7 +12,8 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonScan;
-
+    String historyQrCodes[] = Api.getHistory(MainActivity.this);
+    ListView listView;
     //Intent intent = getIntent();
     //String[] historyQrCodes = intent.getStringArrayExtra("qr_codes");
     @Override
@@ -22,13 +23,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         buttonScan = findViewById(R.id.buttonScan);
+        listView = findViewById(R.id.costumListView);
+
+        CostumClassAdapter costumClassAdapter = new CostumClassAdapter(getApplicationContext(),historyQrCodes);
+        listView.setAdapter(costumClassAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("COSTUM_LIST_VIEW", "CLICK ON ITEM NUBER ::" + i );
+            }
+        });
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), QrCodeScannerActivity.class);
                 startActivity(intent);
             }
+
         });
     }
 }
-

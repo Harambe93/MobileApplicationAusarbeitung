@@ -1,81 +1,94 @@
 package ma.ws2022.barcodeapp;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+public final class Api {
+    public static final String URL = "http://192.168.2.111:3000/items/last5";
+    private Api(){}
+    public static JSONArray json = null;
+    public static String[] arrayHist;
 
-public final class Api extends {
-   private Api(){
+   public static String[] getHistory(AppCompatActivity activity){
+       RequestQueue queue = Volley.newRequestQueue(activity);
 
-   }
-
-   public static String[] getHistory(){
-       OkHttpClient client = new OkHttpClient();
-       String url = "localhost:3000/item";
-       RequestBody body = RequestBody.create(data, MediaType.parse("application/json; charset=utf-8"));
-       Request request = new Request.Builder()
-               .url(url)
-               .post(get)
-               .build();
-
-       response = client.newCall(request).enqueue(new Callback() {
+       JsonArrayRequest stringRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, URL, null, new com.android.volley.Response.Listener<JSONArray>() {
            @Override
-           public void onFailure(Call call, IOException e) {
-               // Handle failure
-               runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       Toast.makeText(getApplicationContext(), "Error getting data from the database", Toast.LENGTH_SHORT).show();
-                   }
-               });
+           public void onResponse(JSONArray response) {
+               Toast.makeText(activity, response.toString(), Toast.LENGTH_LONG).show();
+               json = response;
            }
-       return response
-   }
-
-   public static void postCode(String code) throws IOException{
-       OkHttpClient client = new OkHttpClient();
-       String url = "localhost:3000/items";
-       RequestBody body = RequestBody.create(data, MediaType.parse("application/json; charset=utf-8"));
-       Request request = new Request.Builder()
-               .url(url)
-               .post(body)
-               .build();
-
-       client.newCall(request).enqueue(new Callback() {
+       }, new com.android.volley.Response.ErrorListener() {
            @Override
-           public void onFailure(Call call, IOException e) {
-               // Handle failure
-               runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       Toast.makeText(getApplicationContext(), "Error getting data from the database", Toast.LENGTH_SHORT).show();
-                   }
-               });
+           public void onErrorResponse(VolleyError error) {
+               Toast.makeText(activity, "Oops" + error.toString(), Toast.LENGTH_LONG).show();
            }
+
+       });
+       queue.add(stringRequest);
+       for (int i = 0; i<5; i++) {
+           try {
+               arrayHist[i] = json.getString(i);
+           }catch (JSONException e){
+               Toast.makeText(activity, e.toString(), Toast.LENGTH_LONG).show();
+           }
+       }
+       return arrayHist;
    }
+
+    private static void sendJsonPostRequest(String codeData,AppCompatActivity activity ){
+
+        try {
+            JSONObject jsonParams = new JSONObject();
+            jsonParams.put("data", codeData);
+
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Request.Method.POST,
+                    URL,
+                    jsonParams,
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Toast.makeText(activity, "Erfolgreich hinzugefügt", Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(activity, "Error: " + error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+            Volley.newRequestQueue(activity.getApplicationContext()).
+                    add(request);
+
+        } catch(JSONException ex){
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(ex.getMessage());
+            builder.setTitle("EXCEPTION");
+            builder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    activity.finish();
+                }
+            });
+            builder.show();
+        }
+
+    }
 }
 
