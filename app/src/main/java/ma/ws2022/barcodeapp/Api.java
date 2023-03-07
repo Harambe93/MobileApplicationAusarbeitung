@@ -25,8 +25,7 @@ public final class Api {
     public static final String URL_POST = "http://192.168.2.111:3000/items/";
     private Api(){}
 
-    public static void fillTextView(TextView textView, Activity activity){
-        String[] arrayHist = new String[0];
+    public static void fillTextView(TextView[] textView, Activity activity){
         RequestQueue queue = Volley.newRequestQueue(activity);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET, null,
                 new Response.Listener<JSONArray>() {
@@ -42,7 +41,7 @@ public final class Api {
                             }
                             try {
                                 name = row.getString("data");
-                                textView.append(name+"\n");
+                                textView[i].setText(name);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -51,7 +50,7 @@ public final class Api {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                textView.setText("That didn't work!");
+                //textView.setText("That didn't work!");
             }
         });
         queue.add(request);

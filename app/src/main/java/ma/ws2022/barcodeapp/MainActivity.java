@@ -27,13 +27,18 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonScan;
-    private TextView historyTextfield;
+    //private TextView historyTextfield;
+    private TextView[] historyArray = new TextView[5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        historyTextfield = findViewById(R.id.scanHistory);
+        historyArray[0] = findViewById(R.id.historyView1);
+        historyArray[1] = findViewById(R.id.historyView2);
+        historyArray[2] = findViewById(R.id.historyView3);
+        historyArray[3] = findViewById(R.id.historyView4);
+        historyArray[4] = findViewById(R.id.historyView5);
         buttonScan = findViewById(R.id.buttonScan);
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        Api.fillTextView(historyTextfield, MainActivity.this);
+        Api.fillTextView(historyArray, MainActivity.this);
     }
 }
 

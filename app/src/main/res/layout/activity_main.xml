@@ -26,26 +26,86 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-
-    <EditText
-        android:id="@+id/scanHistory"
+    <TextView
+        android:id="@+id/historyView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:enabled="false"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:lines="6"
-        android:maxLines="6"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         android:autoLink="web"
-        android:linksClickable="true"
+        android:text=".. "
         />
 
+    <TextView
+        android:id="@+id/historyView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/historyView1"
+        android:autoLink="web"
+        android:text=".. "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/historyView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/historyView2"
+        android:autoLink="web"
+        android:text=".. "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/historyView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/historyView3"
+        android:autoLink="web"
+        android:text=".. "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/historyView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/historyView4"
+        android:autoLink="web"
+        android:text=".. "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+
+    <!--
+        <EditText
+            android:id="@+id/scanHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:enabled="false"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:maxLines="6"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            />
+    -->
 
 
 </RelativeLayout>
