@@ -26,6 +26,7 @@ public static final String URL_POST = "<DEINE IP ADRESSE>:3000/items/";
 
 
 #Zuständigkeiten(Implementierung):
+<br>
 Arne Lassen:
 - MainActivity Klasse & Xml
 - QrCodeScannerActivity Klasse & Xml
