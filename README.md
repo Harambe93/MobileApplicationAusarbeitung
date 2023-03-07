@@ -21,3 +21,6 @@ Der vordere Teil der muss angepast werden ->
 ```
 public static final String URL_GET = "<DEINE IP ADRESSE>:3000/items/last5"
 ```
+
+#Zuständigkeiten:
+# Arne Lassen:
