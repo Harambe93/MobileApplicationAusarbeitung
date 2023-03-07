@@ -22,5 +22,25 @@ Der vordere Teil der muss angepast werden ->
 public static final String URL_GET = "<DEINE IP ADRESSE>:3000/items/last5"
 ```
 
-#Zuständigkeiten:
-# Arne Lassen:
+
+#Zuständigkeiten(Implementierung):
+Arne Lassen:
+- MainActivity Klasse & Xml
+- QrCodeScannerActivity Klasse & Xml
+- Design der App
+- Rest-Api(JavaScript / MongoDB)
+- Überarbeiten der Api Klasse(Java)
+- RestApi Klasse (Wird nicht benutzt)
+- Gemeinsames Debuggen, der MainActivity, damit URL's korrekt aufgerufen werden können, und das crashen der App verhindert wird
+
+Marius Bünner:
+- MainActivity Klasse (CustomListView)
+- Erstellen der verschiedenen Activities
+- Erstellen der Api Klasse(Java)
+- Erstellen der CustomListView
+- Gemeinsames Debuggen, der MainActivity, damit URL's korrekt aufgerufen werden können, und das crashen der App verhindert wird
+- Hilfestellung beim Debuggen der Rest-Api Schnittstelle
+
+#Zuständigkeiten(Dokumentation)
+Arne Lassen:
+Marius Bünner:
