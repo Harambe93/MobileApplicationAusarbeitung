@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -33,7 +34,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
     private Button buttonStart;
     public final String URL = "http://192.168.2.111:3000/items";
 
-    //String[] historyQrCodes;
+    String[] historyQrCodes;
     //ListView listView;
 
 
@@ -42,22 +43,8 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qr_code_scanner);
-
         buttonBack = findViewById(R.id.buttonBack);
         buttonStart = findViewById(R.id.buttonStart);
-
-        //listView = findViewById(R.id.costumListView);
-        //CostumClassAdapter costumClassAdapter = new CostumClassAdapter(getApplicationContext(),historyQrCodes);
-        //listView.setAdapter(costumClassAdapter);
-        //listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //@Override
-            //public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Log.i("COSTUM_LIST_VIEW", "CLICK ON ITEM NUBER ::" + i );
-            //}
-        //});
-
-
-
         buttonStart.setOnClickListener(this);
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +90,8 @@ public class QrCodeScannerActivity extends AppCompatActivity implements View.OnC
                 builder.setPositiveButton("Add to History", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        sendJsonPostRequest(result.getContents());
+                        //sendJsonPostRequest(result.getContents());
+                        Api.sendJsonPostRequest(result.getContents(), QrCodeScannerActivity.this);
 
                     }
                 });
