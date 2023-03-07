@@ -14,12 +14,14 @@ Soll die App ausgeführt werden, müssen innerhalb von Android Studio in der Api
 
 ```
 public static final String URL_GET = "http://192.168.2.111:3000/items/last5";
+public static final String URL_POST = "http://192.168.2.111:3000/items/";
 ```
 
 Der vordere Teil der muss angepast werden ->
 
 ```
 public static final String URL_GET = "<DEINE IP ADRESSE>:3000/items/last5"
+public static final String URL_POST = "<DEINE IP ADRESSE>:3000/items/";
 ```
 
 
