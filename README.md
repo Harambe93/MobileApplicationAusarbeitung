@@ -70,7 +70,9 @@ Arne Lassen:<br>
 - Scanner
 - Api 10.1 Node.Js
 <br>
+
 Marius Bünner:<br>
+- Überführung der Dokumente in LaTex
 - Persona(Zusammenarbeit im Zoom)
 - Anforderungsanalyse(Zusammenarbeit im Zoom)
 - Systemkontext(Zusammenarbeit im Zoom)
