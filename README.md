@@ -10,7 +10,7 @@
 **30183230** <br>
 **buenner.marius@fh-swf.de** <br>
 
-Soll die App ausgeführt werden, müssen innerhalb von Android Studio in der Api Java Klasse unter \Ausarbeitung\Implementierung\app\src\main\java\ma\ws2022\barcodeapp\Api die zwei Konstanten "URL_GET" und "URL_POST" geändert werden. Da unsere Rest-Api auf Localhost läuft, müssen die URL's auf die IP Adresse des Computers auf welchem die Rest-Api läuft, angepasst werden.
+Soll die App ausgeführt werden, müssen innerhalb von Android Studio in der Api Java Klasse unter \Ausarbeitung\Implementierung\app\src\main\java\ma\ws2022\barcodeapp\Api die zwei Konstanten "URL_GET" und "URL_POST" geändert werden. Da unsere Rest-Api auf Localhost läuft, müssen die URL's auf die IP Adresse des Computers, auf welchem die Rest-Api läuft, angepasst werden.
 
 ```
 public static final String URL_GET = "http://192.168.2.111:3000/items/last5";
@@ -36,7 +36,7 @@ und
 node index js
 ```
 
-Eingegeben werden, damit der Rest-Api Server gestartet wird. Im Standard Fall läuft die Api auf dem Port 3000.
+Eingegeben werden, damit der Rest-Api Server gestartet wird. Im Standard Fall läuft die Api auf dem Port 3000. Falls das nicht gewünscht ist, muss die PORT Konstante ganz am Anfang des index.js Files innerhalb des Api Ordners, geändert werden.
 
 #Zuständigkeiten(Implementierung):
 <br>
