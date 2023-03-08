@@ -58,6 +58,23 @@ Marius Bünner:
 - Gemeinsames Debuggen, der MainActivity, damit URL's korrekt aufgerufen werden können, und das crashen der App verhindert wird
 - Hilfestellung beim Debuggen der Rest-Api Schnittstelle
 
-#Zuständigkeiten(Dokumentation)
-Arne Lassen:
-Marius Bünner:
+#Zuständigkeiten(Dokumentation) <br>
+
+Arne Lassen:<br>
+- Einleitung
+- Die App
+- Persona(Zusammenarbeit im Zoom)
+- Anforderungsanalyse(Zusammenarbeit im Zoom)
+- Systemkontext(Zusammenarbeit im Zoom)
+- Klassendiagramm(Zusammenarbeit im Zoom)
+- Scanner
+- Api 10.1 Node.Js
+<br>
+Marius Bünner:<br>
+- Persona(Zusammenarbeit im Zoom)
+- Anforderungsanalyse(Zusammenarbeit im Zoom)
+- Systemkontext(Zusammenarbeit im Zoom)
+- Klassendiagramm(Zusammenarbeit im Zoom)
+- Strukturierung der App
+- CustomListView
+- Api 10.2 Api Klasse
