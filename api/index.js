@@ -8,6 +8,9 @@ const authConfig = require('./auth.config');
 // Create a new express app
 const app = express();
 
+// PORT
+const PORT = 3000;
+
 // Set up body parser to parse request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,7 +40,7 @@ client.connect(err => {
   });
 
   app.get('/items/last5', async (req, res) => {
-    // Fetch data from the "codes" collection and send it back to the client
+    // Fetch the last 5 entries from the "codes" collection and send it back to the client
     const collection = client.db('codes').collection('QR');
     const items = await collection.find().limit(5).sort({$natural:-1}).toArray(); 
     res.send(items);
@@ -58,6 +61,6 @@ client.connect(err => {
   });
 
   // Start the server
-  app.listen(3000, () => {
-    console.log('API listening on port 3000');
+  app.listen(PORT, () => {
+    console.log('API listening on port ' + PORT);
   });
