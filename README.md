@@ -24,6 +24,19 @@ public static final String URL_GET = "<DEINE IP ADRESSE>:3000/items/last5"
 public static final String URL_POST = "<DEINE IP ADRESSE>:3000/items/";
 ```
 
+Anschließend muss im Ordner "Api" - /Ausarbeitung/Implementierung/Api - Ein neues Terminal geöffnet werden, und dort die beiden Befehle
+
+```
+npm install
+```
+
+und 
+
+```
+node index js
+```
+
+Eingegeben werden, damit der Rest-Api gestartet wird. Im Standard Fall läuft die Api auf dem Port 3000.
 
 #Zuständigkeiten(Implementierung):
 <br>
@@ -32,7 +45,7 @@ Arne Lassen:
 - QrCodeScannerActivity Klasse & Xml
 - Design der App
 - Rest-Api(JavaScript / MongoDB)
-- Überarbeiten der Api Klasse(Java)
+- Überarbeiten der Api Klasse(Java) -> Fixen der fillTextView Methode, und hinzufügen der sendJsonPostRequest Methode
 - RestApi Klasse (Wird nicht benutzt)
 - Gemeinsames Debuggen, der MainActivity, damit URL's korrekt aufgerufen werden können, und das crashen der App verhindert wird
 
