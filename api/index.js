@@ -60,7 +60,42 @@ client.connect(err => {
     res.send(result);
   });
 
+  app.get('/items/ids/:id', async (req, res) => {
+    // Fetch Data from barcodeItems and check if the id matches one of the ids inside the barcodeItems Object
+    let data = handleBarcode({_id: req.params.id });
+    console.log(data);
+    res.send(data);
+  });
+
   // Start the server
   app.listen(PORT, () => {
     console.log('API listening on port ' + PORT);
   });
+
+  function handleBarcode(barcode) {
+    console.log(barcode._id);
+    const data = {
+        Apples: "12345",
+        Oranges: "67890",
+        Bananas: "56435",
+        Pears: "12345",
+        Grapes: "67890",
+        Strawberries: "56435"
+    }
+    switch (barcode._id) {
+        case data.Apples:
+            return "Apples";
+        case data.Oranges:
+            return "Oranges";
+        case data.Bananas:
+            return "Bananas";
+        case data.Pears:
+            return "Pears";
+        case data.Grapes:
+            return "Grapes";
+        case data.Strawberries:
+            return "Strawberries";
+        default:
+            return "Barcode not found.";
+    }
+}
